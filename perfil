@@ -1,0 +1,37 @@
+public class Perfil extends Fragment {
+
+    TextView cerrarsesion;
+
+    public Perfil() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View vista = inflater.inflate(R.layout.fragment_perfil, container, false);
+
+
+    cerrarsesion = vista.findViewById(R.id.tvcerrarsesion);
+
+    cerrarsesion.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Login.ChangeEstadoCambiar(getActivity(), false);
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            Login llf2 = new Login();
+            ft.replace(R.id.contenedor, llf2);
+            ft.commit();
+        }
+
+    });
+
+        return vista;
+    }
+
+
+
+}
