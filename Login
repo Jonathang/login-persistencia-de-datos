@@ -1,0 +1,65 @@
+public class Login extends Fragment implements View.OnClickListener{
+
+    RadioButton rbsesion;
+    private boolean isActivateRadiobuton;
+
+    private static final String STRING_PREFERENCE = "demo.version.anunciate";
+    private static final String PREFERENCE_ESTADO_BUTTON_SESION = "estado.buton.sesion";
+
+    public Login() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        final View vista = inflater.inflate(R.layout.fragment_login, container, false);
+
+        if (ObtenerEstadoBoton()){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            Perfil llf2 = new Perfil();
+            ft.replace(R.id.contenedor, llf2);
+            ft.commit();
+        }
+
+        // MANTENER SESION INICIADA
+        rbsesion = vista.findViewById(R.id.rbnocerrarsesion);
+        isActivateRadiobuton = rbsesion.isChecked(); //DESACTIVADO
+
+        rbsesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isActivateRadiobuton){
+                    rbsesion.setChecked(false);
+                }
+                isActivateRadiobuton = rbsesion.isChecked();
+            }
+        });
+
+            return vista;
+        }
+
+        public void GuardarEstadoBoton(){
+            SharedPreferences preferences = this.getActivity().getSharedPreferences (STRING_PREFERENCE, MODE_PRIVATE);
+            preferences.edit().putBoolean(PREFERENCE_ESTADO_BUTTON_SESION, rbsesion.isChecked()).apply();
+
+        }
+
+
+
+    public boolean ObtenerEstadoBoton(){
+            SharedPreferences preferences = this.getActivity().getSharedPreferences(STRING_PREFERENCE, MODE_PRIVATE);
+            return preferences.getBoolean(PREFERENCE_ESTADO_BUTTON_SESION,false);
+
+        }
+
+       //CERRAR SESION
+        public static void ChangeEstadoCambiar(Context c, boolean b){
+            SharedPreferences preferences = c.getSharedPreferences (STRING_PREFERENCE, MODE_PRIVATE);
+            preferences.edit().putBoolean(PREFERENCE_ESTADO_BUTTON_SESION, b).apply();
+        }
+
+}
